@@ -15,3 +15,14 @@ void AABPlayerController::Possess(APawn* aPawn)
 	ABLOG_S(Warning);
 	Super::Possess(aPawn);
 }
+
+void AABPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	InputComponent->BindAxis(TEXT("LeftRight"), this, &AABPlayerController::LeftRight);
+}
+
+void AABPlayerController::LeftRight(float NewAxisValue)
+{
+	// Do Nothing!
+}

@@ -18,5 +18,13 @@ class ARENABATTLE_API AABPlayerController : public APlayerController
 public:
 	virtual void PostInitializeComponents() override;
 	virtual void Possess(APawn* aPawn) override;
-	
+
+
+
+protected:
+	virtual void SetupInputComponent() override;
+
+private:
+	void LeftRight(float NewAxisValue);  
+
 };
