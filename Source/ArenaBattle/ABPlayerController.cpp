@@ -16,13 +16,14 @@ void AABPlayerController::Possess(APawn* aPawn)
 	Super::Possess(aPawn);
 }
 
-void AABPlayerController::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-	InputComponent->BindAxis(TEXT("LeftRight"), this, &AABPlayerController::LeftRight);
-}
 
-void AABPlayerController::LeftRight(float NewAxisValue)
+// ABPlayerController.h에 선언한 BeginPlay 구현
+// 플레이어 컨트롤러에게 UI를 배제하고 게임에게만 입력을 전달하도록 명령
+void AABPlayerController::BeginPlay()
 {
-	// Do Nothing!
+	Super::BeginPlay();
+
+	FInputModeGameOnly InputMode;
+	SetInputMode(InputMode);
+
 }

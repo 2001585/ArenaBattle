@@ -21,10 +21,8 @@ public:
 
 
 
+	// 플레이 눌러서 콘텐츠 테스트할 때 매번 언리얼 에디터 뷰포트 클릭하는 불편함 없애기
 protected:
-	virtual void SetupInputComponent() override;
-
-private:
-	void LeftRight(float NewAxisValue);  
+	virtual void BeginPlay() override;
 
 };

@@ -41,6 +41,12 @@ AABPawn::AABPawn()
 void AABPawn::BeginPlay()
 {
 	Super::BeginPlay();
+	Mesh->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+	UAnimationAsset* AnimAsset = LoadObject<UAnimationAsset>(nullptr, TEXT("/Game/Book/Animations/WarriorRun.WarriorRun"));
+	if (AnimAsset != nullptr)
+	{
+		Mesh->PlayAnimation(AnimAsset, true);
+	}
 	
 }
 
