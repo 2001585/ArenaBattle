@@ -35,7 +35,7 @@ AABCharacter::AABCharacter()
 		GetMesh()->SetAnimInstanceClass(WARRIOR_ANIM.Class);
 	}
 
-	SetControlMode(0);
+	SetControlMode(EControlMode::DIABLO);
 }
 
 // Called when the game starts or when spawned
@@ -45,17 +45,13 @@ void AABCharacter::BeginPlay()
 	
 }
 
-// Called every frame
-void AABCharacter::Tick(float DeltaTime)
+void AABCharacter::SetControlMode(EControlMode NewControlMode)
 {
-	Super::Tick(DeltaTime);
+	CurrentControlMode = NewControlMode;
 
-}
-
-void AABCharacter::SetControlMode(int32 ControlMode)
-{
-	if (ControlMode == 0)
+	switch (CurrentControlMode)
 	{
+	case EControlMode::GTA:
 		SpringArm->TargetArmLength = 450.0f;
 		SpringArm->SetRelativeRotation(FRotator::ZeroRotator);
 		SpringArm->bUsePawnControlRotation = true;
@@ -66,8 +62,37 @@ void AABCharacter::SetControlMode(int32 ControlMode)
 		bUseControllerRotationYaw = false;
 		GetCharacterMovement()->bOrientRotationToMovement = true;
 		GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
+		break;
+	case EControlMode::DIABLO:
+		SpringArm->TargetArmLength = 800.0f;
+		SpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+		SpringArm->bUsePawnControlRotation = false;
+		SpringArm->bInheritPitch = false;
+		SpringArm->bInheritRoll = false;
+		SpringArm->bInheritYaw = false;
+		SpringArm->bDoCollisionTest = false;
+		bUseControllerRotationYaw = true;
+		break;
 	}
 }
+
+// Called every frame
+void AABCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	switch (CurrentControlMode)
+	{
+	case EControlMode::DIABLO:
+		if (DirectionToMove.SizeSquared() > 0.0f)
+		{
+			GetController()->SetControlRotation(FRotationMatrix::MakeFromX(DirectionToMove).Rotator());
+			AddMovementInput(DirectionToMove);
+		}
+		break;
+	}
+}
+
 
 // Called to bind functionality to input
 void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -99,4 +124,3 @@ void AABCharacter::Turn(float NewAxisValue)
 {
 	AddControllerYawInput(NewAxisValue);
 }
-

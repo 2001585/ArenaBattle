@@ -19,12 +19,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void SetControlMode(int32 ControlMode);
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	enum class EControlMode
 	{
 		GTA,
@@ -34,6 +28,10 @@ public:
 	void SetControlMode(EControlMode NewControlMode);
 	EControlMode CurrentControlMode = EControlMode::GTA;
 	FVector DirectionToMove = FVector::ZeroVector;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
